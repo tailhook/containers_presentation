@@ -1,0 +1,28 @@
+containers:
+
+  build:
+    builder: ubuntu
+    parameters:
+      repos: universe
+      packages: python3-pip python3-dev libxml2-dev python3-lxml
+    provision: |
+      set -ex
+      export PATH=/usr/bin:/usr/sbin:/bin:/sbin
+      pip3 install hovercraft
+
+  serve:
+    builder: arch
+    parameters:
+      packages: webfs
+
+
+commands:
+
+  build:
+    container: build
+    command: [hovercraft, presentation.rst, build]
+
+  serve:
+    container: serve
+    run: webfsd -R /work/build -F
+

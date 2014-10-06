@@ -1,0 +1,42 @@
+@import "hovercraft.css";
+
+body.impress-on-clone_part1 .part1 {
+    font-weight: bold;
+}
+
+body.impress-on-clone_part1 .part2,
+body.impress-on-clone_part1 .part3 {
+    opacity: 0.7;
+}
+
+body.impress-on-clone_part2 .part2 {
+    font-weight: bold;
+}
+
+body.impress-on-clone_part2 .part1,
+body.impress-on-clone_part2 .part3 {
+    opacity: 0.7;
+}
+
+body.impress-on-clone_part3 .part3 {
+    font-weight: bold;
+}
+
+body.impress-on-clone_part3 .part1,
+body.impress-on-clone_part3 .part2 {
+    opacity: 0.7;
+}
+
+ul {
+    text-align: left;
+}
+
+#fs_table table {
+    text-align: left;
+}
+#fs_table ul li {
+    list-style-type: none;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    line-height: 100%;
+}
