@@ -51,3 +51,13 @@ body.impress-on-lie #lie {
     font-size: 400%;
     opacity: 0.5;
 }
+
+body #docker_cloud_firewalled {
+    opacity: 0;
+}
+
+body.impress-on-docker_cloud_firewalled #docker_cloud_firewalled {
+    opacity: 1;
+    transition: ease-in-out 2s;
+    z-index: -1;
+}

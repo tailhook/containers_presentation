@@ -461,17 +461,110 @@ Don't Let Service Discovery Create Containers!
 
 ----
 
-Docker Socket With Mesos
-------------------------
+Breaking Clusters
+=================
 
 ----
 
-... + Mesosphere
-----------------
+:data-scale: 0.5
 
+.. image:: docker_cloud.svg
+
+----
+
+:id: docker_cloud_firewalled
+:data-scale: 1
+:data-x: r0
+:data-y: r-50
+
+.. image:: docker_cloud_firewalled.svg
+
+----
+
+:data-x: r2000
+
+.. image:: docker_cloud_broken.svg
+
+----
+
+* Use ACLs in Zookeeper
+* Use Auth *and* Firewall
+* Don't trust local machines
 
 ----
 
 Untrusted Images
 ================
+
+* setuid binaries
+* networking code
+* DoS
+
+----
+
+Insufficently Authenticated Repositories
+========================================
+
+----
+
+Can replace any image:
+
+* load-balancer
+* service-discovery
+* statistics
+
+.. note:: Repository is accessible (rw) by developers and production IPs.
+   Developer has set simple password.
+
+----
+
+
+Perfect Virtualisation Tool
+===========================
+
+----
+
+Volumes
+-------
+
+Limit mountable directories
+
+Readonly: ``/containers/{skydock,wordpress}``
+
+Writeable: ``/var/lib/{mysql,redis,postgres}``
+
+----
+
+Volumes
+-------
+
+``*`` can be done with Docker using Apparmor or SELinux
+
+----
+
+Users
+-----
+
+Never run anything as root
+
+----
+
+Volumes
+-------
+
+Always mount with ``nosuid,nodev``
+
+We don't need ``sudo`` or ``su``
+
+----
+
+Images
+------
+
+* Signing
+* Incremental Download
+
+----
+
+.. image:: perfect_docker.svg
 
