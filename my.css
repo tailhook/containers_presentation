@@ -40,3 +40,14 @@ ul {
     margin-bottom: 0em;
     line-height: 100%;
 }
+
+body #lie {
+    display: none;
+}
+
+body.impress-on-lie #lie {
+    display: block;
+    color: red;
+    font-size: 400%;
+    opacity: 0.5;
+}

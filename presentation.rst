@@ -286,6 +286,11 @@ Vagrant-LXC
 
 ----
 
+systemd-nspawn
+==============
+
+----
+
 Vagga
 =====
 
@@ -311,24 +316,68 @@ Security
 Running as Root
 ===============
 
+
+    ... we don’t claim Docker out-of-the-box
+    is suitable for containing untrusted
+    programs with root privileges ...
+
+    -- Solomon Hykes
+
+----
+
+Running as non-Root
+-------------------
+
+.. code-block:: bash
+
+    docker run -it --rm --user=1000 something
+
+----
+
+:id: lie
+:data-x: r0
+
+Lie
+---
+
+----
+
+:data-x: r2000
+
+Can become root by any binary with setuid set:
+
+(e.g. ``su``, ``sudo``)
+
+So can be broken on untrusted images
+
+(e.g. by replacing ``/etc/sudoers``)
+
+----
+
+Docker
+------
+
+* Always use ``--user=``
+* Never use untrusted images
+
 ----
 
 Root in LXC
 -----------
 
-* ``+`` setuid
+* same as docker
+* except unsafe defaults
+* running processes: ssh, crontab
 
 ----
 
-Root in Docker
---------------
+Root in User Namespaces
+-----------------------
 
-* ``+`` setuid (?)
-
-----
-
-Root in User Namespace
-----------------------
+* Allows safely "be root"
+* Has uid > 0 outside namespace
+* Supported by LXC and Vagga
+* Eventually supported in Docker
 
 ----
 
@@ -337,8 +386,78 @@ Docker Socket
 
 ----
 
-SkyDNS
-------
+Docker command workflow:
+
+``docker run ubuntu bash``
+
+--> HTTP --> /var/run/docker.sock -->
+
+``docker -d``
+
+----
+
+Docker socket permissions::
+
+    srw-rw---- 1 root docker Oct  7 23:23 /var/run/docker.sock
+
+Which is basically equivalent to::
+
+    %docker ALL=(ALL) NOPASSWD: ALL
+
+----
+
+In case it's not obvious::
+
+    docker run -it --rm \
+        --volume /:/host \
+        ubuntu rm -rf /host
+
+----
+
+Never run::
+
+
+    docker -d -H 127.0.0.1
+
+(any hostname, even localhost)
+
+Without::
+
+    docker -d --tlscacert --tlsverify
+
+----
+
+But that's not enough!
+
+----
+
+SkyDock
+-------
+
+* Service discovery for docker
+* Listens docker events
+* Publishes them as DNS records
+
+----
+
+Running as::
+
+    docker run -d \
+    -v /var/run/docker.sock:/docker.sock \
+    crosbymichael/skydock
+
+----
+
+breaking skydock
+
+=
+
+breaking host system
+
+----
+
+Don't Let Service Discovery Create Containers!
+==============================================
 
 ----
 
@@ -353,6 +472,6 @@ Docker Socket With Mesos
 
 ----
 
-Docker Images
--------------
+Untrusted Images
+================
 
