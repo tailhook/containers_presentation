@@ -20,7 +20,9 @@ commands:
 
   build:
     container: build
-    command: [hovercraft, presentation.rst, build]
+    run: |
+      hovercraft presentation.rst build
+      cat accesskeys.html >> build/index.html
 
   serve:
     container: serve

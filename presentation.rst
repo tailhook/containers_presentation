@@ -1,4 +1,5 @@
 :css: my.css
+:js: my.js
 
 .. title:: Linux Containers Ecosystem
 
@@ -16,6 +17,7 @@ Linux Containers Ecosystem
 
 ----
 
+:id: internals
 :data-x: 1000
 :data-y: -500
 :data-scale: 1
@@ -264,6 +266,7 @@ containers by unprivileged users
 
 ----
 
+:id: tools
 :data-x: 1000
 :data-y: 0
 :data-scale: 1
@@ -455,6 +458,15 @@ Vagga
 * http://github.com/tailhook/vagga
 * http://vagga.readthedocs.org
 
+----
+
+Nix
+====
+
+* not-a-virtualisation
+* virtualenv for C, Py, Node, ...
+
+
 
 ----
 
@@ -464,6 +476,7 @@ Vagga
 
 ----
 
+:id: security
 :data-scale: 1
 :data-x: 1000
 :data-y: 500
@@ -741,3 +754,4 @@ Images
 :data-scale: 2
 :data-x: 500
 :data-y: 0
+
