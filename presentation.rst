@@ -26,11 +26,14 @@ Internals
 ----
 
 :data-x: r2000
+:data-y: r-1000
 
 Process Management
 ==================
 
 ----
+
+:data-x: r2000
 
 The most obvious way:
 
@@ -212,6 +215,7 @@ CLONE_NEWPID
 * own pid 1
 * ``KILL``'ed when pid 1 dead
 * separate ``/proc``
+* ``SIG_IGN`` for ``SIGTERM`` and friends
 
 ----
 
@@ -271,28 +275,186 @@ Tools
 
 :data-x: r2000
 
-Docker
-======
+LXC
+===
+
+looks like good old virtualisation
 
 ----
 
 LXC
 ===
 
+* slow to setup
+* slow to start
+* complex administration
+
+----
+
+LXC
+===
+
+* system bloat: SSH, upstart, cron ...
+* bridged network
+* complex (but powerful) config
+
+----
+
+LXC
+===
+
+But:
+
+* lxc-create --t download
+* lxc-exec
+
+----
+
+
+Docker
+======
+
+* easy to run
+* easy to create image
+* easy to deploy
+* docker push
+
+----
+
+.. class:: strikethrough
+
+::
+
+    docker run ubuntu bash
+
+::
+
+    docker run -it --rm \
+        --user $(id -u)
+        --volume $(pwd):/workdir \
+        --workdir /workdir \
+        our.repo.local/foobar:$(get_version) \
+        bash
+
+----
+
+Docker
+======
+
+buggy
+
+.. image:: docker_bug.png
+   :width: 800
+
+----
+
+Docker
+======
+
+* complicated security
+* hates upstart/systemd/mesos...
+
 ----
 
 Vagrant-LXC
 ===========
+
+Has over LXC:
+
+* download/upload images
+* provisioning
+
+----
+
+Vagrant-LXC
+===========
+
+* compatible with VirtualBox
+* cheaper than VM
+
+----
+
+Vagrant-LXC
+===========
+
+* slow to start
+* only for dev.env.
 
 ----
 
 systemd-nspawn
 ==============
 
+* equivalent of lxc-exec
+* no tools to build images
+* complex config
+
 ----
 
 Vagga
 =====
+
+* simple YAML config (+versioning)
+* user namespaces (no root/setuid)
+* multiple process monitoring
+* only for dev.env.
+
+----
+
+.. code-block:: yaml
+
+    # vagga.yaml
+    containers:
+      react:
+        builder: npm
+        parameters:
+          packages: react-tools
+    commands:
+      build:
+        container: react
+        description: "Build static files"
+        run: "jsx jsx/page.jsx > public/js/page.js"
+
+----
+
+.. code-block:: console
+
+    $ vagga
+    Available commands:
+        build     Build static files
+        run       Run nginx+app+redis
+    $ vagga build
+
+----
+
+::
+
+   # docker tree
+   -+= 00001 root systemd --system
+    |-+- 10771 root docker -d
+    | \--= 32029 root bash   << our process
+    \-+= 30029 pc tmux
+      \-+= 10718 pc -zsh     << our shell
+        \-+= 32021 pc docker run -it --rm bash
+
+::
+
+   # vagga tree
+   -+= 00001 root systemd --system
+    \-+= 30029 pc tmux
+      \-+= 10358 pc -zsh        << our shell
+        \-+= 00940 pc vagga bash
+          \-+- 00941 pc vagga bash
+            \--= 00942 pc bash  << our process
+
+----
+
+.. image:: vagga.svg
+   :width: 500
+
+* http://github.com/tailhook/vagga
+* http://vagga.readthedocs.org
+
 
 ----
 
@@ -312,6 +474,7 @@ Security
 ----
 
 :data-x: r2000
+:data-y: r1000
 
 Running as Root
 ===============
@@ -325,6 +488,8 @@ Running as Root
 
 ----
 
+:data-x: r2000
+
 Running as non-Root
 -------------------
 
@@ -334,11 +499,12 @@ Running as non-Root
 
 ----
 
-:id: lie
+:id: docker_root_lie
 :data-x: r0
 
+.. class:: lie
+
 Lie
----
 
 ----
 
@@ -409,6 +575,7 @@ Which is basically equivalent to::
 In case it's not obvious::
 
     docker run -it --rm \
+        --privileged \
         --volume /:/host \
         ubuntu rm -rf /host
 
@@ -505,6 +672,9 @@ Untrusted Images
 Insufficently Authenticated Repositories
 ========================================
 
+.. note:: Repository is accessible (rw) by developers and production IPs.
+   Developer has set simple password.
+
 ----
 
 Can replace any image:
@@ -513,14 +683,12 @@ Can replace any image:
 * service-discovery
 * statistics
 
-.. note:: Repository is accessible (rw) by developers and production IPs.
-   Developer has set simple password.
-
 ----
 
+:id: perfect
 
-Perfect Virtualisation Tool
-===========================
+*Perfect* Virtualisation **Tool**
+=================================
 
 ----
 
@@ -538,7 +706,7 @@ Writeable: ``/var/lib/{mysql,redis,postgres}``
 Volumes
 -------
 
-``*`` can be done with Docker using Apparmor or SELinux
+``*`` can be done for Docker using Apparmor or SELinux
 
 ----
 
@@ -568,3 +736,8 @@ Images
 
 .. image:: perfect_docker.svg
 
+----
+
+:data-scale: 2
+:data-x: 500
+:data-y: 0
