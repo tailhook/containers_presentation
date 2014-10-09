@@ -408,12 +408,12 @@ Vagga
 
     # vagga.yaml
     containers:
-      react:
+      'react':
         builder: npm
         parameters:
           packages: react-tools
     commands:
-      build:
+      'build':
         container: react
         description: "Build static files"
         run: "jsx jsx/page.jsx > public/js/page.js"
@@ -422,10 +422,13 @@ Vagga
 
 .. code-block:: console
 
+    $ git clone git://github.com/.../foobar
+    $ cd foobar
     $ vagga
     Available commands:
-        build     Build static files
-        run       Run nginx+app+redis
+        build       Build static files
+        run         Run nginx+app+redis
+        build-docs  Build docs
     $ vagga build
 
 ----
@@ -438,7 +441,7 @@ Vagga
     | \--= 32029 root bash   << our process
     \-+= 30029 pc tmux
       \-+= 10718 pc -zsh     << our shell
-        \-+= 32021 pc docker run -it --rm bash
+        \--= 32021 pc docker run -it --rm bash
 
 ::
 
@@ -710,9 +713,31 @@ Volumes
 
 Limit mountable directories
 
-Readonly: ``/containers/{skydock,wordpress}``
+Say *NO* to mounting host root!
 
-Writeable: ``/var/lib/{mysql,redis,postgres}``
+----
+
+Volumes
+-------
+
+Base image:
+
+``/containers/{skydock,wordpress}``
+
+* read-only
+* nosuid, nodev
+
+----
+
+Volumes
+-------
+
+Storage:
+
+``/var/lib/{mysql,redis,postgres}``
+
+* writable
+* noexec, nosuid, nodev
 
 ----
 
@@ -727,15 +752,6 @@ Users
 -----
 
 Never run anything as root
-
-----
-
-Volumes
--------
-
-Always mount with ``nosuid,nodev``
-
-We don't need ``sudo`` or ``su``
 
 ----
 
