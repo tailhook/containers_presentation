@@ -469,7 +469,15 @@ Nix
 * not-a-virtualisation
 * virtualenv for C, Py, Node, ...
 
+----
 
+coreutils
+=========
+
+* ``unshare``
+* ``nsenter``
+
+(+ ``mount`` and ``bash``)
 
 ----
 
