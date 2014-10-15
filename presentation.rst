@@ -696,8 +696,11 @@ Untrusted Images
 Insufficently Authenticated Repositories
 ========================================
 
-.. note:: Repository is accessible (rw) by developers and production IPs.
-   Developer has set simple password.
+.. note::
+   * Repository is accessible (rw) by developers and production IPs.
+     Developer has set simple password.
+   * Repository is authenticated by stored on s3/shared storage, sharing the
+     key with application itself
 
 ----
 
