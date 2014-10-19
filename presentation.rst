@@ -332,7 +332,7 @@ Docker
 
 ::
 
-    docker run -it --rm \
+    sudo docker run -it --rm \
         --user $(id -u)
         --volume $(pwd):/workdir \
         --workdir /workdir \
@@ -355,6 +355,7 @@ Docker
 ======
 
 * complicated security
+* images are not reproducible
 * hates upstart/systemd/mesos...
 
 ----
@@ -468,6 +469,7 @@ Nix
 
 * not-a-virtualisation
 * virtualenv for C, Py, Node, ...
+* reproducible configs(!)
 
 ----
 
