@@ -349,6 +349,7 @@ buggy
 .. image:: docker_bug.png
    :width: 800
 
+
 ----
 
 Docker
@@ -357,6 +358,21 @@ Docker
 * complicated security
 * images are not reproducible
 * hates upstart/systemd/mesos...
+
+----
+
+Docker+CoreOS
+=============
+
+::
+
+    [Service]
+    TimeoutStartSec=0
+    ExecStartPre=-/usr/bin/docker kill busybox1
+    ExecStartPre=-/usr/bin/docker rm busybox1
+    ExecStartPre=/usr/bin/docker pull busybox
+    ExecStart=/usr/bin/docker run --name busybox1 busybox /bin/sh -c "while true; do echo Hello World; sleep 1; done"
+    ExecStop=/usr/bin/docker stop busybox1
 
 ----
 
@@ -783,4 +799,40 @@ Images
 :data-scale: 2
 :data-x: 500
 :data-y: 0
+
+----
+
+:id: resume
+:data-x: -2000
+
+Resume
+======
+
+----
+
+process management + containers
+
+not *so* hard
+
+----
+
+docker *is* complicated
+=======================
+
+----
+
+:id: formula
+
+
+Ο(*processes + containers*) ≡ ``*`` Ο(*docker*)
+
+----
+
+:id: formula_security
+:data-x: r0
+
+.. class:: security
+
+\* Watch Out Security
+=====================
 

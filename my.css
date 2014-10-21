@@ -99,3 +99,42 @@ ul {
     left: 0px;
     position: relative;
 }
+
+#formula {
+    font-size: 250%;
+    transition: ease-in 1s;
+    position: relative;
+    top: 0px;
+}
+
+#formula em {
+    font-size: 50%;
+    display: inline-block;
+    width: 4em;
+    vertical-align: middle;
+    line-height: 0.9;
+}
+
+#formula tt {
+    position: absolute;
+    left: 420px;
+    top: 50px;
+    width: 0px;
+    height: 0px;
+    font-size: 50%;
+}
+
+.impress-on-formula_security #formula {
+    top: -250px;
+}
+
+#formula_security {
+    position: relative;
+    top: +250px;
+    opacity: 0;
+    transition: ease-in 1s 1s;
+}
+
+#formula_security.active {
+    opacity: 1;
+}
