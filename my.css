@@ -43,12 +43,12 @@ ul {
 
 .lie {
     color: red;
-    font-size: 400%;
+    font-size: 800%;
     opacity: 0;
     transition: ease-out 2s;
 }
 
-.lie.active {
+.active .lie {
     opacity: 0.7;
 }
 
@@ -86,12 +86,12 @@ ul {
 
 #perfect em {
     top: -500px;
-    transition: ease-in 0.5s 3s;
+    transition: ease-in 0.5s 1s;
 }
 
 #perfect strong {
     left: 1000px;
-    transition: ease-in 0.5s 2s;
+    transition: ease-in 0.5s 1.5s;
 }
 
 #perfect.active em, #perfect.active strong {

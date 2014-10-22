@@ -711,22 +711,25 @@ Untrusted Images
 
 ----
 
-Insufficently Authenticated Repositories
-========================================
-
-.. note::
-   * Repository is accessible (rw) by developers and production IPs.
-     Developer has set simple password.
-   * Repository is authenticated by stored on s3/shared storage, sharing the
-     key with application itself
-
-----
-
-Can replace any image:
+Untrusted Infrastructure Images
+===============================
 
 * load-balancer
 * service-discovery
 * statistics
+
+----
+
+Insufficently Authenticated Repositories
+========================================
+
+----
+
+.. image:: docker_dev_break.svg
+
+----
+
+.. image:: docker_s3_break.svg
 
 ----
 
