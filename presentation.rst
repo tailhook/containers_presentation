@@ -559,7 +559,7 @@ Running as non-Root
 
 .. code-block:: bash
 
-    docker run -it --rm --user=1000 something
+    docker run --user=1000 something
 
 ----
 
