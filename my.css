@@ -1,6 +1,14 @@
 @import "hovercraft.css";
 
+pre {
+    font-size: 180%;
+}
+
 #title {
+}
+
+.part1, .part2, .part3 {
+    font-size: 100%;
 }
 
 body.impress-on-clone_part1 .part1 {

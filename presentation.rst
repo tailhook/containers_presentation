@@ -210,7 +210,7 @@ Create hierarchy in new mount namespace:
     mount --bind /dev \
                  /usr/lib/lxc/rootfs/dev
     mount -t tmpfs tmpfs /usr/lib/lxc/rootfs/tmp
-    # note /var/lib/lxc/ubuntu/rootfs/{dev,tmp} still empty
+    # note .../rootfs/{dev,tmp} still empty
     chroot /usr/lib/lxc/rootfs bash
 
 ----
@@ -247,6 +247,7 @@ CLONE_NEWNET
 * network interfaces
 * iptables rules
 * localhost
+* abstract unix sockets
 
 -----
 
@@ -376,7 +377,7 @@ Docker+CoreOS
     ExecStartPre=-/usr/bin/docker kill busybox1
     ExecStartPre=-/usr/bin/docker rm busybox1
     ExecStartPre=/usr/bin/docker pull busybox
-    ExecStart=/usr/bin/docker run --name busybox1 busybox /bin/sh -c "while true; do echo Hello World; sleep 1; done"
+    ExecStart=/usr/bin/docker run --name ...
     ExecStop=/usr/bin/docker stop busybox1
 
 ----
@@ -404,6 +405,22 @@ Vagrant-LXC
 
 * slow to start
 * only for dev.env.
+
+----
+
+Vagrant-Docker
+==============
+
+* multiple docker containers
+* non-compatible with virtualbox
+
+----
+
+Fig
+===
+
+* multiple docker containers
+* will be integrated into docker
 
 ----
 
@@ -846,8 +863,8 @@ docker *is* complicated
 
 :data-x: r-2000
 
-Chose The Right Tool
-====================
+Choose The Right Tool
+=====================
 
 Code If There Ain't One
 =======================
