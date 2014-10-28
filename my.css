@@ -1,5 +1,8 @@
 @import "hovercraft.css";
 
+#title {
+}
+
 body.impress-on-clone_part1 .part1 {
     font-weight: bold;
 }
@@ -125,16 +128,20 @@ ul {
 }
 
 .impress-on-formula_security #formula {
-    top: -250px;
+    top: -150px;
 }
 
 #formula_security {
     position: relative;
-    top: +250px;
+    top: +150px;
     opacity: 0;
     transition: ease-in 1s 1s;
 }
 
 #formula_security.active {
     opacity: 1;
+}
+
+#final_titles h1 {
+    margin: 150px 0px;
 }

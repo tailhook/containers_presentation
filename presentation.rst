@@ -5,6 +5,10 @@
 
 ----
 
+:id: title
+
+.. image:: pycon.png
+
 ==========================
 Linux Containers Ecosystem
 ==========================
@@ -308,7 +312,7 @@ LXC
 
 But:
 
-* lxc-create --t download
+* lxc-create -t download
 * lxc-exec
 
 ----
@@ -355,6 +359,7 @@ buggy
 Docker
 ======
 
+* monolithic design
 * complicated security
 * images are not reproducible
 * hates upstart/systemd/mesos...
@@ -665,11 +670,6 @@ breaking host system
 
 ----
 
-Don't Let Service Discovery Create Containers!
-==============================================
-
-----
-
 Breaking Clusters
 =================
 
@@ -807,6 +807,7 @@ Images
 
 :id: resume
 :data-x: -2000
+:data-scale: 1
 
 Resume
 ======
@@ -838,4 +839,16 @@ docker *is* complicated
 
 \* Watch Out Security
 =====================
+
+----
+
+:id: final_titles
+
+:data-x: r-2000
+
+Chose The Right Tool
+====================
+
+Code If There Ain't One
+=======================
 
