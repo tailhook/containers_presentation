@@ -153,3 +153,7 @@ ul {
 #final_titles h1 {
     margin: 150px 0px;
 }
+
+.two-columns {
+    width: 100%;
+}

@@ -396,14 +396,19 @@ Vagga
 Production Tools
 ================
 
-* cocaine
-* weave
-* flynn
-* geard
-* kubernetes
-* deis
-* mesos
-* coreos
+.. class:: two-columns
+
++----------------+----------------+
+|   dokku        | maestro-ng     |
++----------------+----------------+
+|   cocaine      | kubernetes     |
++----------------+----------------+
+|   weave        | deis           |
++----------------+----------------+
+|   flynn        | mesos          |
++----------------+----------------+
+|   geard        | coreos (fleet) |
++----------------+----------------+
 
 ----
 
