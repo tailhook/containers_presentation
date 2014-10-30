@@ -283,51 +283,19 @@ Tools
 
 :data-x: r2000
 
-LXC
-===
+Low Level Tools
+===============
 
-looks like good old virtualisation
-
-----
-
-LXC
-===
-
-* slow to setup
-* slow to start
-* complex administration
+* lxc  / lxc-exec
+* docker
+* warden
+* systemd-nspawn
+* unshare
 
 ----
-
-LXC
-===
-
-* system bloat: SSH, upstart, cron ...
-* bridged network
-* complex (but powerful) config
-
-----
-
-LXC
-===
-
-But:
-
-* lxc-create -t download
-* lxc-exec
-
-----
-
 
 Docker
 ======
-
-* easy to run
-* easy to create image
-* easy to deploy
-* docker push
-
-----
 
 .. class:: strikethrough
 
@@ -346,90 +314,13 @@ Docker
 
 ----
 
-Docker
-======
-
-buggy
-
-.. image:: docker_bug.png
-   :width: 800
-
-
-----
-
-Docker
-======
-
-* monolithic design
-* complicated security
-* images are not reproducible
-* hates upstart/systemd/mesos...
-
-----
-
-Docker+CoreOS
+Dev Env Tools
 =============
 
-::
-
-    [Service]
-    TimeoutStartSec=0
-    ExecStartPre=-/usr/bin/docker kill busybox1
-    ExecStartPre=-/usr/bin/docker rm busybox1
-    ExecStartPre=/usr/bin/docker pull busybox
-    ExecStart=/usr/bin/docker run --name ...
-    ExecStop=/usr/bin/docker stop busybox1
-
-----
-
-Vagrant-LXC
-===========
-
-Has over LXC:
-
-* download/upload images
-* provisioning
-
-----
-
-Vagrant-LXC
-===========
-
-* compatible with VirtualBox
-* cheaper than VM
-
-----
-
-Vagrant-LXC
-===========
-
-* slow to start
-* only for dev.env.
-
-----
-
-Vagrant-Docker
-==============
-
-* multiple docker containers
-* non-compatible with virtualbox
-
-----
-
-Fig
-===
-
-* multiple docker containers
-* will be integrated into docker
-
-----
-
-systemd-nspawn
-==============
-
-* equivalent of lxc-exec
-* no tools to build images
-* complex config
+* vagrant-lxc
+* vagrant-docker
+* fig (on top of docker)
+* vagga (on top of nothing)
 
 ----
 
@@ -502,22 +393,41 @@ Vagga
 
 ----
 
+Production Tools
+================
+
+* cocaine
+* weave
+* flynn
+* geard
+* kubernetes
+* deis
+* mesos
+* coreos
+
+----
+
+Docker+CoreOS
+=============
+
+::
+
+    [Service]
+    TimeoutStartSec=0
+    ExecStartPre=-/usr/bin/docker kill busybox1
+    ExecStartPre=-/usr/bin/docker rm busybox1
+    ExecStartPre=/usr/bin/docker pull busybox
+    ExecStart=/usr/bin/docker run --name ...
+    ExecStop=/usr/bin/docker stop busybox1
+
+----
+
 Nix
 ====
 
 * not-a-virtualisation
 * virtualenv for C, Py, Node, ...
 * reproducible configs(!)
-
-----
-
-coreutils
-=========
-
-* ``unshare``
-* ``nsenter``
-
-(+ ``mount`` and ``bash``)
 
 ----
 
@@ -589,25 +499,6 @@ Docker
 
 * Always use ``--user=``
 * Never use untrusted images
-
-----
-
-Root in LXC
------------
-
-* same as docker
-* except unsafe defaults
-* running processes: ssh, crontab
-
-----
-
-Root in User Namespaces
------------------------
-
-* Allows safely "be root"
-* Has uid > 0 outside namespace
-* Supported by LXC and Vagga
-* Eventually supported in Docker
 
 ----
 
@@ -750,122 +641,6 @@ Insufficently Authenticated Repositories
 
 ----
 
-:id: perfect
-
-*Perfect* Virtualisation **Tool**
-=================================
-
-----
-
-Volumes
--------
-
-Limit mountable directories
-
-Say *NO* to mounting host root!
-
-----
-
-Volumes
--------
-
-Base image:
-
-``/containers/{skydock,wordpress}``
-
-* read-only
-* nosuid, nodev
-
-----
-
-Volumes
--------
-
-Storage:
-
-``/var/lib/{mysql,redis,postgres}``
-
-* writable
-* noexec, nosuid, nodev
-
-----
-
-Volumes
--------
-
-``*`` can be done for Docker using Apparmor or SELinux
-
-----
-
-Users
------
-
-Never run anything as root
-
-----
-
-Images
-------
-
-* Signing
-* Incremental Download
-
-----
-
-.. image:: perfect_docker.svg
-
-----
-
 :data-scale: 2
 :data-x: 500
 :data-y: 0
-
-----
-
-:id: resume
-:data-x: -2000
-:data-scale: 1
-
-Resume
-======
-
-----
-
-process management + containers
-
-not *so* hard
-
-----
-
-docker *is* complicated
-=======================
-
-----
-
-:id: formula
-
-
-Ο(*processes + containers*) ≡ ``*`` Ο(*docker*)
-
-----
-
-:id: formula_security
-:data-x: r0
-
-.. class:: security
-
-\* Watch Out Security
-=====================
-
-----
-
-:id: final_titles
-
-:data-x: r-2000
-
-Choose The Right Tool
-=====================
-
-Code If There Ain't One
-=======================
-
