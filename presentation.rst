@@ -271,9 +271,217 @@ containers by unprivileged users
 
 ----
 
-:id: tools
+:id: security
+:data-scale: 1
 :data-x: 1000
 :data-y: 0
+
+Security
+++++++++
+
+----
+
+:data-x: r2000
+
+Running as Root
+===============
+
+
+    ... we don’t claim Docker out-of-the-box
+    is suitable for containing untrusted
+    programs with root privileges ...
+
+    -- Solomon Hykes
+
+----
+
+Running as non-Root
+-------------------
+
+.. code-block:: bash
+
+    docker run --user=1000 something
+
+----
+
+:id: docker_root_lie
+:data-x: r0
+
+.. class:: lie
+
+Lie
+
+----
+
+:data-x: r2000
+
+Can become root by any binary with setuid set:
+
+(e.g. ``su``, ``sudo``)
+
+So can be broken on untrusted images
+
+(e.g. by replacing ``/etc/sudoers``)
+
+----
+
+Docker
+------
+
+* Always use ``--user=``
+* Never use untrusted images
+
+----
+
+Docker Socket
+=============
+
+----
+
+Docker command workflow:
+
+``docker run ubuntu bash``
+
+--> HTTP --> /var/run/docker.sock -->
+
+``docker -d``
+
+----
+
+Docker socket permissions::
+
+    srw-rw---- 1 root docker Oct  7 23:23 \
+        /var/run/docker.sock
+
+Which is basically equivalent to::
+
+    %docker ALL=(ALL) NOPASSWD: ALL
+
+----
+
+In case it's not obvious::
+
+    docker run -it --rm \
+        --privileged \
+        --volume /:/host \
+        ubuntu rm -rf /host
+
+----
+
+Never run::
+
+
+    docker -d -H 127.0.0.1
+
+(any hostname, even localhost)
+
+Without::
+
+    docker -d --tlscacert --tlsverify
+
+----
+
+But that's not enough!
+
+----
+
+SkyDock
+-------
+
+* Service discovery for docker
+* Listens docker events
+* Publishes them as DNS records
+
+----
+
+Running as::
+
+    docker run -d \
+    -v /var/run/docker.sock:/docker.sock \
+    crosbymichael/skydock
+
+----
+
+breaking skydock
+
+=
+
+breaking host system
+
+----
+
+Breaking Clusters
+=================
+
+----
+
+:data-scale: 0.5
+
+.. image:: docker_cloud.svg
+
+----
+
+:id: docker_cloud_firewalled
+:data-scale: 1
+:data-x: r0
+:data-y: r-50
+
+.. image:: docker_cloud_firewalled.svg
+
+----
+
+:data-x: r2000
+
+.. image:: docker_cloud_broken.svg
+
+----
+
+* Use ACLs in Zookeeper
+* Use Auth *and* Firewall
+* Don't trust local machines
+
+----
+
+Untrusted Images
+================
+
+* setuid binaries
+* networking code
+* DoS
+
+----
+
+Untrusted Infrastructure Images
+===============================
+
+* load-balancer
+* service-discovery
+* statistics
+
+----
+
+Insufficently Authenticated Repositories
+========================================
+
+----
+
+.. image:: docker_dev_break.svg
+
+----
+
+.. image:: docker_s3_break.svg
+
+----
+
+:data-scale: 2
+:data-x: 500
+:data-y: 0
+
+----
+
+:id: tools
+:data-x: 1000
+:data-y: 500
 :data-scale: 1
 
 Tools
@@ -282,6 +490,7 @@ Tools
 ----
 
 :data-x: r2000
+:data-y: r1000
 
 Low Level Tools
 ===============
@@ -293,6 +502,8 @@ Low Level Tools
 * unshare
 
 ----
+
+:data-x: r2000
 
 Docker
 ======
@@ -440,212 +651,3 @@ Nix
 :data-x: 500
 :data-y: 0
 
-----
-
-:id: security
-:data-scale: 1
-:data-x: 1000
-:data-y: 500
-
-Security
-++++++++
-
-----
-
-:data-x: r2000
-:data-y: r1000
-
-Running as Root
-===============
-
-
-    ... we don’t claim Docker out-of-the-box
-    is suitable for containing untrusted
-    programs with root privileges ...
-
-    -- Solomon Hykes
-
-----
-
-:data-x: r2000
-
-Running as non-Root
--------------------
-
-.. code-block:: bash
-
-    docker run --user=1000 something
-
-----
-
-:id: docker_root_lie
-:data-x: r0
-
-.. class:: lie
-
-Lie
-
-----
-
-:data-x: r2000
-
-Can become root by any binary with setuid set:
-
-(e.g. ``su``, ``sudo``)
-
-So can be broken on untrusted images
-
-(e.g. by replacing ``/etc/sudoers``)
-
-----
-
-Docker
-------
-
-* Always use ``--user=``
-* Never use untrusted images
-
-----
-
-Docker Socket
-=============
-
-----
-
-Docker command workflow:
-
-``docker run ubuntu bash``
-
---> HTTP --> /var/run/docker.sock -->
-
-``docker -d``
-
-----
-
-Docker socket permissions::
-
-    srw-rw---- 1 root docker Oct  7 23:23 /var/run/docker.sock
-
-Which is basically equivalent to::
-
-    %docker ALL=(ALL) NOPASSWD: ALL
-
-----
-
-In case it's not obvious::
-
-    docker run -it --rm \
-        --privileged \
-        --volume /:/host \
-        ubuntu rm -rf /host
-
-----
-
-Never run::
-
-
-    docker -d -H 127.0.0.1
-
-(any hostname, even localhost)
-
-Without::
-
-    docker -d --tlscacert --tlsverify
-
-----
-
-But that's not enough!
-
-----
-
-SkyDock
--------
-
-* Service discovery for docker
-* Listens docker events
-* Publishes them as DNS records
-
-----
-
-Running as::
-
-    docker run -d \
-    -v /var/run/docker.sock:/docker.sock \
-    crosbymichael/skydock
-
-----
-
-breaking skydock
-
-=
-
-breaking host system
-
-----
-
-Breaking Clusters
-=================
-
-----
-
-:data-scale: 0.5
-
-.. image:: docker_cloud.svg
-
-----
-
-:id: docker_cloud_firewalled
-:data-scale: 1
-:data-x: r0
-:data-y: r-50
-
-.. image:: docker_cloud_firewalled.svg
-
-----
-
-:data-x: r2000
-
-.. image:: docker_cloud_broken.svg
-
-----
-
-* Use ACLs in Zookeeper
-* Use Auth *and* Firewall
-* Don't trust local machines
-
-----
-
-Untrusted Images
-================
-
-* setuid binaries
-* networking code
-* DoS
-
-----
-
-Untrusted Infrastructure Images
-===============================
-
-* load-balancer
-* service-discovery
-* statistics
-
-----
-
-Insufficently Authenticated Repositories
-========================================
-
-----
-
-.. image:: docker_dev_break.svg
-
-----
-
-.. image:: docker_s3_break.svg
-
-----
-
-:data-scale: 2
-:data-x: 500
-:data-y: 0
